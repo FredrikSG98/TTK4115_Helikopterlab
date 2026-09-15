@@ -3,18 +3,20 @@ set(0, 'DefaultTextInterpreter', "latex"); % Formater text om til LaTeX
 
 fig1 = figure(1);
 
-VALT_DATASETT_VERDIER = UNSTABLE_VALUES;
+VALT_DATASETT_VERDIER = Saturation;
 
 
 % Visualiser steppet på referansen
 t = VALT_DATASETT_VERDIER(1, :);
-pitch_ref = (heaviside(t)-heaviside(t-40))*0 + heaviside(t-40)*(pi/18); % Vis referansen i plottet.
+%pitch_ref = (heaviside(t)-heaviside(t-40))*0 + heaviside(t-40)*(pi/18); % Vis referansen i plottet.
 
 
 % Plot data
 plot( VALT_DATASETT_VERDIER(1, :), VALT_DATASETT_VERDIER(2, :), 'LineWidth', 1.5 );
 hold on
-plot( t, pitch_ref, 'LineWidth', 2, "LineStyle","--" );
+plot( VALT_DATASETT_VERDIER(1, :), VALT_DATASETT_VERDIER(3, :), 'LineWidth', 1.5 );
+plot( VALT_DATASETT_VERDIER(1, :), VALT_DATASETT_VERDIER(4, :), 'LineWidth', 1.5 );
+plot( VALT_DATASETT_VERDIER(1, :), VALT_DATASETT_VERDIER(5, :), 'LineWidth', 1.5 );
 hold off
 grid on;
 legend("p_c(t)", "p(t)")
