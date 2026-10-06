@@ -29,16 +29,16 @@ ELEV_OFFSET = -0.475; %Offset for keeping the 0-point at horizontal
 
 %%%%%%%%%%% Tuning constants
 Kf = 0.2058; % equilibrium gain with input =1
+V_s_0= 6.5; % equalibrium offset on voltage sum
 K1=Kf/(2*m_p*l_p); %
 Kpp = 9/K1; % proportional gain  
 Kpd = 6/K1; % derivatgain
-K1= Kf/(2*m_p*l_p)
 J_e=m_c*l_c^2+2*m_p*l_h^2;
-J_lambda=(m_c*l_c^2 * 2*m_p*(l_h^2+l_p^2))
+J_lambda=(m_c*l_c^2 + 2*m_p*(l_h^2+l_p^2))
 L3=l_h*Kf
 L4=l_h*Kf
 K2= L3/J_e
-K3= L4/J_lambda
+K3= L4*V_s_0/J_lambda
 
 %%%%%%%%%%% LQR calc
 
