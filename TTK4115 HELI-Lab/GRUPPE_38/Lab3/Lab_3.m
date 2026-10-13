@@ -29,16 +29,17 @@ ELEV_OFFSET = -0.475; %Offset for keeping the 0-point at horizontal
 
 %%%%%%%%%%% Tuning constants
 Kf = 0.2058; % equilibrium gain with input =1
-V_s_0= 6.5; % equalibrium offset on voltage sum
+V_s_0 = 6.5;
 K1=Kf/(2*m_p*l_p); %
 Kpp = 9/K1; % proportional gain  
 Kpd = 6/K1; % derivatgain
+K1= Kf/(2*m_p*l_p);
 J_e=m_c*l_c^2+2*m_p*l_h^2;
-J_lambda=(m_c*l_c^2 + 2*m_p*(l_h^2+l_p^2))
-L3=l_h*Kf
-L4=l_h*Kf
-K2= L3/J_e
-K3= L4*V_s_0/J_lambda
+J_lambda=(m_c*l_c^2 + 2*m_p*(l_h^2+l_p^2));
+L3=l_h*Kf;
+L4=l_h*Kf;
+K2= L3/J_e;
+K3= L4*V_s_0/J_lambda;
 
 %%%%%%%%%%% LQR calc
 
@@ -50,14 +51,20 @@ Q =diag([64/pi^2,1/pi^2,15, 9/(4*pi^2), 16/(pi^2)])
 R=diag([1/12.25,1/25])
 SYS = ss(A,B,C,D)
 [K, S, E] =lqr(SYS, Q, R)
-
 F=K*transpose(C)
 
+%%%%%%%%%% poles
+Aa=[0,1,0;0,0,0;0,0,0];
+Ba = [0,0; 0, K1; K2,0];
+Ca = [0,1,0;0,0,1];
+sys = ss(Aa,Ba,Ca,D);
 
+
+p=pole(sys)
 %%%%%%%%%%% Luenberger setup
 PORT = 3 % the port for the Accelerometer. 
 A_est = [0 1 0 0 0 ; 0 0 0 0 0 ;0 0 0 1 0 ;0 0 0 0 0 ;K3 0 0 0 0]
 B_est = [0 0;0 K1;0 0;K2 0;0 0]
-C_est = eye(5)%[0 0 1 0 0;0 0 0 0 1]
-poless =[-1.0 -1.1 -1.2 -1.3 -1.4]'
+C_est = [1 0 0 0 0;0 1 0 0 0;0 0 1 0 0;0 0 0 0 1] 
+poless =([-0.6 -0.7+0.1j -0.7-0.1j -0.5-0.3j -0.5+0.3j])'
 L_est = place(A_est', C_est', poless)'

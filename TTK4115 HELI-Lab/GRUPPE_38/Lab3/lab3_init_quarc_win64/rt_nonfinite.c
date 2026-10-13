@@ -7,9 +7,9 @@
  *
  * Code generation for model "lab3_init".
  *
- * Model version              : 11.45
+ * Model version              : 11.61
  * Simulink Coder version : 9.4 (R2020b) 29-Jul-2020
- * C source code generated on : Tue Oct  6 14:57:24 2026
+ * C source code generated on : Tue Oct 13 14:13:32 2026
  *
  * Target selection: quarc_win64.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping

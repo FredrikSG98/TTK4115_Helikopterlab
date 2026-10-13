@@ -7,9 +7,9 @@
  *
  * Code generation for model "lab3_init".
  *
- * Model version              : 11.45
+ * Model version              : 11.61
  * Simulink Coder version : 9.4 (R2020b) 29-Jul-2020
- * C source code generated on : Tue Oct  6 14:57:24 2026
+ * C source code generated on : Tue Oct 13 14:13:32 2026
  *
  * Target selection: quarc_win64.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -29,10 +29,7 @@ extern t_stream lab3_init_rtZt_stream;
 
 /* A global buffer for storing error messages (defined in quanser_common library) */
 EXTERN char _rt_error_message[512];
-int_T rt_WriteMat4FileHeader(FILE *fp,
-  int32_T m,
-  int32_T n,
-  const char_T *name);
+extern real_T rt_atan2d_snf(real_T u0, real_T u1);
 void lab3_init_output0(void);
 void lab3_init_update0(void);
 void lab3_init_output2(void);

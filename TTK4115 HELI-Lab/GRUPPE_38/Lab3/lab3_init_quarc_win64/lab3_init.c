@@ -7,9 +7,9 @@
  *
  * Code generation for model "lab3_init".
  *
- * Model version              : 11.45
+ * Model version              : 11.61
  * Simulink Coder version : 9.4 (R2020b) 29-Jul-2020
- * C source code generated on : Tue Oct  6 14:57:24 2026
+ * C source code generated on : Tue Oct 13 14:13:32 2026
  *
  * Target selection: quarc_win64.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -37,34 +37,6 @@ DW_lab3_init_T lab3_init_DW;
 static RT_MODEL_lab3_init_T lab3_init_M_;
 RT_MODEL_lab3_init_T *const lab3_init_M = &lab3_init_M_;
 static void rate_monotonic_scheduler(void);
-
-/*
- * Writes out MAT-file header.  Returns success or failure.
- * Returns:
- *      0 - success
- *      1 - failure
- */
-int_T rt_WriteMat4FileHeader(FILE *fp, int32_T m, int32_T n, const char *name)
-{
-  typedef enum { ELITTLE_ENDIAN, EBIG_ENDIAN } ByteOrder;
-
-  int16_T one = 1;
-  ByteOrder byteOrder = (*((int8_T *)&one)==1) ? ELITTLE_ENDIAN : EBIG_ENDIAN;
-  int32_T type = (byteOrder == ELITTLE_ENDIAN) ? 0: 1000;
-  int32_T imagf = 0;
-  int32_T name_len = (int32_T)strlen(name) + 1;
-  if ((fwrite(&type, sizeof(int32_T), 1, fp) == 0) ||
-      (fwrite(&m, sizeof(int32_T), 1, fp) == 0) ||
-      (fwrite(&n, sizeof(int32_T), 1, fp) == 0) ||
-      (fwrite(&imagf, sizeof(int32_T), 1, fp) == 0) ||
-      (fwrite(&name_len, sizeof(int32_T), 1, fp) == 0) ||
-      (fwrite(name, sizeof(char), name_len, fp) == 0)) {
-    return(1);
-  } else {
-    return(0);
-  }
-}                                      /* end rt_WriteMat4FileHeader */
-
 time_T rt_SimUpdateDiscreteEvents(
   int_T rtmNumSampTimes, void *rtmTimingData, int_T *rtmSampleHitPtr, int_T
   *rtmPerTaskSampleHits )
@@ -138,6 +110,42 @@ static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si )
   rtsiSetSimTimeStep(si,MAJOR_TIME_STEP);
 }
 
+real_T rt_atan2d_snf(real_T u0, real_T u1)
+{
+  real_T y;
+  int32_T u0_0;
+  int32_T u1_0;
+  if (rtIsNaN(u0) || rtIsNaN(u1)) {
+    y = (rtNaN);
+  } else if (rtIsInf(u0) && rtIsInf(u1)) {
+    if (u0 > 0.0) {
+      u0_0 = 1;
+    } else {
+      u0_0 = -1;
+    }
+
+    if (u1 > 0.0) {
+      u1_0 = 1;
+    } else {
+      u1_0 = -1;
+    }
+
+    y = atan2(u0_0, u1_0);
+  } else if (u1 == 0.0) {
+    if (u0 > 0.0) {
+      y = RT_PI / 2.0;
+    } else if (u0 < 0.0) {
+      y = -(RT_PI / 2.0);
+    } else {
+      y = 0.0;
+    }
+  } else {
+    y = atan2(u0, u1);
+  }
+
+  return y;
+}
+
 /* Model output function for TID0 */
 void lab3_init_output0(void)           /* Sample time: [0.0s, 0.0s] */
 {
@@ -145,15 +153,13 @@ void lab3_init_output0(void)           /* Sample time: [0.0s, 0.0s] */
   t_stream_ptr rtb_StreamCall2_o1;
   real_T rtb_HILReadEncoderTimebase_o1;
   real_T rtb_HILReadEncoderTimebase_o2;
-  real_T rtb_TmpSignalConversionAtToFile[12];
   real_T rtb_DeadZoney;
   int32_T rtb_StreamFormattedRead1_o8;
   int32_T rtb_StreamFormattedRead_o2;
   int32_T rtb_StreamCall2_o3;
-  real_T tmp_2[9];
-  real_T tmp[5];
-  real_T tmp_0[2];
-  real_T tmp_1[2];
+  real_T tmp[9];
+  real_T tmp_0[5];
+  real_T rtb_Sum2[2];
   real_T euler_rates_tmp;
   real_T euler_rates_tmp_0;
   real_T rtb_Backgain;
@@ -206,129 +212,7 @@ void lab3_init_output0(void)           /* Sample time: [0.0s, 0.0s] */
         rtb_DeadZoney = lab3_init_DW.HILReadEncoderTimebase_Buffer[2];
       }
     }
-  }
 
-  /* Step: '<Root>/Step2' incorporates:
-   *  Step: '<Root>/Step'
-   *  Step: '<Root>/Step1'
-   *  Step: '<Root>/Step3'
-   *  Step: '<Root>/Step4'
-   *  Step: '<Root>/Step5'
-   */
-  rtb_Backgain = lab3_init_M->Timing.t[0];
-  if (rtb_Backgain < lab3_init_P.Step2_Time) {
-    rtb_Frontgain = lab3_init_P.Step2_Y0;
-  } else {
-    rtb_Frontgain = lab3_init_P.Step2_YFinal;
-  }
-
-  /* End of Step: '<Root>/Step2' */
-
-  /* Step: '<Root>/Step3' */
-  if (rtb_Backgain < lab3_init_P.Step3_Time) {
-    euler_rates_tmp = lab3_init_P.Step3_Y0;
-  } else {
-    euler_rates_tmp = lab3_init_P.Step3_YFinal;
-  }
-
-  /* Sum: '<Root>/Sum3' */
-  lab3_init_B.p_c = rtb_Frontgain - euler_rates_tmp;
-
-  /* Step: '<Root>/Step' */
-  if (rtb_Backgain < lab3_init_P.Step_Time) {
-    rtb_Frontgain = lab3_init_P.Step_Y0;
-  } else {
-    rtb_Frontgain = lab3_init_P.Step_YFinal;
-  }
-
-  /* Step: '<Root>/Step1' */
-  if (rtb_Backgain < lab3_init_P.Step1_Time) {
-    euler_rates_tmp = lab3_init_P.Step1_Y0;
-  } else {
-    euler_rates_tmp = lab3_init_P.Step1_YFinal;
-  }
-
-  /* Step: '<Root>/Step5' */
-  if (rtb_Backgain < lab3_init_P.Step5_Time) {
-    euler_rates_tmp_0 = lab3_init_P.Step5_Y0;
-  } else {
-    euler_rates_tmp_0 = lab3_init_P.Step5_YFinal;
-  }
-
-  /* Step: '<Root>/Step4' */
-  if (rtb_Backgain < lab3_init_P.Step4_Time) {
-    rtb_Backgain = lab3_init_P.Step4_Y0;
-  } else {
-    rtb_Backgain = lab3_init_P.Step4_YFinal;
-  }
-
-  /* Sum: '<Root>/Sum1' */
-  lab3_init_B.e_c_dot = ((rtb_Frontgain - euler_rates_tmp) + euler_rates_tmp_0)
-    - rtb_Backgain;
-  for (i = 0; i < 5; i++) {
-    /* Integrator: '<S7>/Integrator' */
-    lab3_init_B.x_hat[i] = lab3_init_X.Integrator_CSTATE[i];
-  }
-
-  /* SignalConversion generated from: '<Root>/Gain1' incorporates:
-   *  Integrator: '<Root>/Integrator'
-   *  Integrator: '<Root>/Integrator1'
-   */
-  tmp[2] = lab3_init_B.x_hat[3];
-  tmp[3] = lab3_init_X.Integrator_CSTATE_g;
-  tmp[4] = lab3_init_X.Integrator1_CSTATE;
-  tmp[0] = lab3_init_B.x_hat[0];
-
-  /* Gain: '<Root>/Gain' incorporates:
-   *  SignalConversion generated from: '<Root>/Gain'
-   */
-  tmp_0[0] = lab3_init_P.F[0] * lab3_init_B.p_c + lab3_init_P.F[2] *
-    lab3_init_B.e_c_dot;
-
-  /* SignalConversion generated from: '<Root>/Gain1' */
-  tmp[1] = lab3_init_B.x_hat[1];
-
-  /* Gain: '<Root>/Gain' incorporates:
-   *  SignalConversion generated from: '<Root>/Gain'
-   */
-  tmp_0[1] = lab3_init_P.F[1] * lab3_init_B.p_c;
-  tmp_0[1] += lab3_init_P.F[3] * lab3_init_B.e_c_dot;
-  for (i = 0; i < 2; i++) {
-    /* Gain: '<Root>/Gain1' */
-    tmp_1[i] = 0.0;
-    for (i_0 = 0; i_0 < 5; i_0++) {
-      tmp_1[i] += lab3_init_P.K[(i_0 << 1) + i] * tmp[i_0];
-    }
-
-    /* End of Gain: '<Root>/Gain1' */
-
-    /* Sum: '<Root>/Sum2' */
-    lab3_init_B.Sum2[i] = tmp_0[i] - tmp_1[i];
-  }
-
-  if (rtmIsMajorTimeStep(lab3_init_M)) {
-    /* Gain: '<S3>/Pitch: Count to rad' */
-    lab3_init_B.PitchCounttorad = lab3_init_P.PitchCounttorad_Gain *
-      rtb_HILReadEncoderTimebase_o2;
-
-    /* Sum: '<S3>/Sum' incorporates:
-     *  Constant: '<S3>/Constant'
-     *  Gain: '<S3>/Elevation: Count to rad'
-     */
-    lab3_init_B.Sum = lab3_init_P.ElevationCounttorad_Gain * rtb_DeadZoney +
-      lab3_init_P.ELEV_OFFSET;
-  }
-
-  /* TransferFcn: '<S3>/Elevation: Transfer Fcn' */
-  lab3_init_B.ElevationTransferFcn = 0.0;
-  lab3_init_B.ElevationTransferFcn += lab3_init_P.ElevationTransferFcn_C *
-    lab3_init_X.ElevationTransferFcn_CSTATE;
-  lab3_init_B.ElevationTransferFcn += lab3_init_P.ElevationTransferFcn_D *
-    lab3_init_B.Sum;
-
-  /* Sum: '<Root>/Sum5' */
-  lab3_init_B.zeta_dot = lab3_init_B.e_c_dot - lab3_init_B.x_hat[3];
-  if (rtmIsMajorTimeStep(lab3_init_M)) {
     /* S-Function (stream_call_block): '<S4>/Stream Call2' incorporates:
      *  Constant: '<S4>/Constant4'
      *  S-Function (string_constant_block): '<S4>/String Constant1'
@@ -561,29 +445,33 @@ void lab3_init_output0(void)           /* Sample time: [0.0s, 0.0s] */
 
     if (lab3_init_B.LogicalOperator1) {
       /* '<S6>:1:10' */
-      if (fabs(lab3_init_B.Gain2[2]) > 0.0001) {
-        /* '<S6>:1:11' */
-        /* '<S6>:1:12' */
-        lab3_init_DW.p_last = lab3_init_B.Gain2[1] / lab3_init_B.Gain2[2];
-        lab3_init_DW.p_last = atan(lab3_init_DW.p_last);
-      }
+      /* '<S6>:1:11' */
+      lab3_init_DW.p_last = rt_atan2d_snf(-lab3_init_B.Gain2[1],
+        -lab3_init_B.Gain2[2]) + 0.08;
 
-      rtb_Backgain = sqrt(lab3_init_B.Gain2[1] * lab3_init_B.Gain2[1] +
-                          lab3_init_B.Gain2[2] * lab3_init_B.Gain2[2]);
-      if (rtb_Backgain > 0.0001) {
-        /* '<S6>:1:14' */
-        /* '<S6>:1:15' */
-        lab3_init_DW.e_last = lab3_init_B.Gain2[0] / rtb_Backgain;
-        lab3_init_DW.e_last = atan(lab3_init_DW.e_last);
-      }
+      /* '<S6>:1:12' */
+      lab3_init_DW.e_last = rt_atan2d_snf(lab3_init_B.Gain2[0], sqrt
+        (lab3_init_B.Gain2[1] * lab3_init_B.Gain2[1] + lab3_init_B.Gain2[2] *
+         lab3_init_B.Gain2[2]));
     }
 
-    /* '<S6>:1:18' */
+    /* '<S6>:1:14' */
     lab3_init_B.euler_angles[0] = lab3_init_DW.p_last;
     lab3_init_B.euler_angles[1] = lab3_init_DW.e_last;
 
     /* End of MATLAB Function: '<Root>/MATLAB Function' */
 
+    /* Gain: '<S3>/Pitch: Count to rad' */
+    lab3_init_B.PitchCounttorad = lab3_init_P.PitchCounttorad_Gain *
+      rtb_HILReadEncoderTimebase_o2;
+  }
+
+  for (i = 0; i < 5; i++) {
+    /* Integrator: '<S7>/Integrator' */
+    lab3_init_B.x_hat[i] = lab3_init_X.Integrator_CSTATE[i];
+  }
+
+  if (rtmIsMajorTimeStep(lab3_init_M)) {
     /* MATLAB Function: '<Root>/Gyro vector to [pitch rate, elevation rate, travle rate]' */
     /* MATLAB Function 'Gyro vector to [pitch rate, elevation rate, travle rate]': '<S2>:1' */
     /* '<S2>:1:3' */
@@ -594,27 +482,30 @@ void lab3_init_output0(void)           /* Sample time: [0.0s, 0.0s] */
     rtb_Frontgain = sin(lab3_init_B.euler_angles[0]);
     euler_rates_tmp = cos(lab3_init_B.euler_angles[0]);
     euler_rates_tmp_0 = cos(lab3_init_B.euler_angles[1]);
-    tmp_2[0] = 1.0;
-    tmp_2[3] = rtb_Frontgain * rtb_Backgain;
-    tmp_2[6] = euler_rates_tmp * rtb_Backgain;
-    tmp_2[1] = 0.0;
-    tmp_2[4] = euler_rates_tmp;
-    tmp_2[7] = -rtb_Frontgain;
-    tmp_2[2] = 0.0;
-    tmp_2[5] = rtb_Frontgain / euler_rates_tmp_0;
-    tmp_2[8] = euler_rates_tmp / euler_rates_tmp_0;
+    tmp[0] = 1.0;
+    tmp[3] = rtb_Frontgain * rtb_Backgain;
+    tmp[6] = euler_rates_tmp * rtb_Backgain;
+    tmp[1] = 0.0;
+    tmp[4] = euler_rates_tmp;
+    tmp[7] = -rtb_Frontgain;
+    tmp[2] = 0.0;
+    tmp[5] = rtb_Frontgain / euler_rates_tmp_0;
+    tmp[8] = euler_rates_tmp / euler_rates_tmp_0;
     for (i = 0; i < 3; i++) {
       lab3_init_B.euler_rates[i] = 0.0;
-      lab3_init_B.euler_rates[i] += tmp_2[i] * lab3_init_B.Gain1[0];
-      lab3_init_B.euler_rates[i] += tmp_2[i + 3] * lab3_init_B.Gain1[1];
-      lab3_init_B.euler_rates[i] += tmp_2[i + 6] * lab3_init_B.Gain1[2];
+      lab3_init_B.euler_rates[i] += tmp[i] * lab3_init_B.Gain1[0];
+      lab3_init_B.euler_rates[i] += tmp[i + 3] * lab3_init_B.Gain1[1];
+      lab3_init_B.euler_rates[i] += tmp[i + 6] * lab3_init_B.Gain1[2];
     }
 
     /* End of MATLAB Function: '<Root>/Gyro vector to [pitch rate, elevation rate, travle rate]' */
 
-    /* Gain: '<S3>/Travel: Count to rad' */
-    lab3_init_B.TravelCounttorad = lab3_init_P.TravelCounttorad_Gain *
-      rtb_HILReadEncoderTimebase_o1;
+    /* Sum: '<S3>/Sum' incorporates:
+     *  Constant: '<S3>/Constant'
+     *  Gain: '<S3>/Elevation: Count to rad'
+     */
+    lab3_init_B.Sum = lab3_init_P.ElevationCounttorad_Gain * rtb_DeadZoney +
+      lab3_init_P.ELEV_OFFSET;
   }
 
   /* TransferFcn: '<S3>/Pitch: Transfer Fcn' */
@@ -624,6 +515,21 @@ void lab3_init_output0(void)           /* Sample time: [0.0s, 0.0s] */
   lab3_init_B.PitchTransferFcn += lab3_init_P.PitchTransferFcn_D *
     lab3_init_B.PitchCounttorad;
 
+  /* TransferFcn: '<S3>/Elevation: Transfer Fcn' */
+  lab3_init_B.ElevationTransferFcn = 0.0;
+  lab3_init_B.ElevationTransferFcn += lab3_init_P.ElevationTransferFcn_C *
+    lab3_init_X.ElevationTransferFcn_CSTATE;
+  lab3_init_B.ElevationTransferFcn += lab3_init_P.ElevationTransferFcn_D *
+    lab3_init_B.Sum;
+  if (rtmIsMajorTimeStep(lab3_init_M)) {
+    /* Gain: '<Root>/Gain2' */
+    lab3_init_B.Gain2_e = lab3_init_P.Gain2_Gain_d * lab3_init_B.euler_rates[2];
+
+    /* Gain: '<S3>/Travel: Count to rad' */
+    lab3_init_B.TravelCounttorad = lab3_init_P.TravelCounttorad_Gain *
+      rtb_HILReadEncoderTimebase_o1;
+  }
+
   /* TransferFcn: '<S3>/Travel: Transfer Fcn' */
   lab3_init_B.TravelTransferFcn = 0.0;
   lab3_init_B.TravelTransferFcn += lab3_init_P.TravelTransferFcn_C *
@@ -631,108 +537,143 @@ void lab3_init_output0(void)           /* Sample time: [0.0s, 0.0s] */
   lab3_init_B.TravelTransferFcn += lab3_init_P.TravelTransferFcn_D *
     lab3_init_B.TravelCounttorad;
   if (rtmIsMajorTimeStep(lab3_init_M)) {
-    /* SignalConversion generated from: '<Root>/To File1' */
-    rtb_TmpSignalConversionAtToFile[0] = lab3_init_B.p_c;
-    rtb_TmpSignalConversionAtToFile[1] = lab3_init_B.e_c_dot;
-    for (i = 0; i < 5; i++) {
-      rtb_TmpSignalConversionAtToFile[i + 2] = lab3_init_B.x_hat[i];
+    /* RateTransition: '<S5>/Rate Transition: x' */
+    if (lab3_init_M->Timing.RateInteraction.TID1_2) {
+      /* RateTransition: '<S5>/Rate Transition: x' */
+      lab3_init_B.RateTransitionx = lab3_init_DW.RateTransitionx_Buffer0;
     }
 
-    rtb_TmpSignalConversionAtToFile[7] = lab3_init_B.euler_angles[0];
-    rtb_TmpSignalConversionAtToFile[8] = lab3_init_B.euler_rates[0];
-    rtb_TmpSignalConversionAtToFile[9] = lab3_init_B.euler_angles[1];
-    rtb_TmpSignalConversionAtToFile[10] = lab3_init_B.euler_rates[1];
-    rtb_TmpSignalConversionAtToFile[11] = lab3_init_B.euler_rates[2];
+    /* End of RateTransition: '<S5>/Rate Transition: x' */
 
-    /* End of SignalConversion generated from: '<Root>/To File1' */
-
-    /* ToFile: '<Root>/To File1' */
-    if (rtmIsMajorTimeStep(lab3_init_M)) {
-      if (rtmIsMajorTimeStep(lab3_init_M) ) {
-        {
-          if (!(++lab3_init_DW.ToFile1_IWORK.Decimation % 1) &&
-              (lab3_init_DW.ToFile1_IWORK.Count * (12 + 1)) + 1 < 100000000 ) {
-            FILE *fp = (FILE *) lab3_init_DW.ToFile1_PWORK.FilePtr;
-            if (fp != (NULL)) {
-              real_T u[12 + 1];
-              lab3_init_DW.ToFile1_IWORK.Decimation = 0;
-              u[0] = lab3_init_M->Timing.t[1];
-              u[1] = rtb_TmpSignalConversionAtToFile[0];
-              u[2] = rtb_TmpSignalConversionAtToFile[1];
-              u[3] = rtb_TmpSignalConversionAtToFile[2];
-              u[4] = rtb_TmpSignalConversionAtToFile[3];
-              u[5] = rtb_TmpSignalConversionAtToFile[4];
-              u[6] = rtb_TmpSignalConversionAtToFile[5];
-              u[7] = rtb_TmpSignalConversionAtToFile[6];
-              u[8] = rtb_TmpSignalConversionAtToFile[7];
-              u[9] = rtb_TmpSignalConversionAtToFile[8];
-              u[10] = rtb_TmpSignalConversionAtToFile[9];
-              u[11] = rtb_TmpSignalConversionAtToFile[10];
-              u[12] = rtb_TmpSignalConversionAtToFile[11];
-              if (fwrite(u, sizeof(real_T), 12 + 1, fp) != 12 + 1) {
-                rtmSetErrorStatus(lab3_init_M,
-                                  "Error writing to MAT-file prob_4.mat");
-                return;
-              }
-
-              if (((++lab3_init_DW.ToFile1_IWORK.Count) * (12 + 1))+1 >=
-                  100000000) {
-                (void)fprintf(stdout,
-                              "*** The ToFile block will stop logging data before\n"
-                              "    the simulation has ended, because it has reached\n"
-                              "    the maximum number of elements (100000000)\n"
-                              "    allowed in MAT-file prob_4.mat.\n");
-              }
-            }
-          }
-        }
-      }
+    /* DeadZone: '<S5>/Dead Zone: x' */
+    if (lab3_init_B.RateTransitionx > lab3_init_P.DeadZonex_End) {
+      /* DeadZone: '<S5>/Dead Zone: y' */
+      rtb_DeadZoney = lab3_init_B.RateTransitionx - lab3_init_P.DeadZonex_End;
+    } else if (lab3_init_B.RateTransitionx >= lab3_init_P.DeadZonex_Start) {
+      /* DeadZone: '<S5>/Dead Zone: y' */
+      rtb_DeadZoney = 0.0;
+    } else {
+      /* DeadZone: '<S5>/Dead Zone: y' */
+      rtb_DeadZoney = lab3_init_B.RateTransitionx - lab3_init_P.DeadZonex_Start;
     }
+
+    /* End of DeadZone: '<S5>/Dead Zone: x' */
+
+    /* Gain: '<S5>/Joystick_gain_x' incorporates:
+     *  Gain: '<S5>/Gain: x'
+     */
+    lab3_init_B.Joystick_gain_x = lab3_init_P.Gainx_Gain * rtb_DeadZoney *
+      lab3_init_P.Joystick_gain_x;
+
+    /* RateTransition: '<S5>/Rate Transition: y' */
+    if (lab3_init_M->Timing.RateInteraction.TID1_2) {
+      /* RateTransition: '<S5>/Rate Transition: y' */
+      lab3_init_B.RateTransitiony = lab3_init_DW.RateTransitiony_Buffer0;
+    }
+
+    /* End of RateTransition: '<S5>/Rate Transition: y' */
+
+    /* DeadZone: '<S5>/Dead Zone: y' */
+    if (lab3_init_B.RateTransitiony > lab3_init_P.DeadZoney_End) {
+      /* DeadZone: '<S5>/Dead Zone: y' */
+      rtb_DeadZoney = lab3_init_B.RateTransitiony - lab3_init_P.DeadZoney_End;
+    } else if (lab3_init_B.RateTransitiony >= lab3_init_P.DeadZoney_Start) {
+      /* DeadZone: '<S5>/Dead Zone: y' */
+      rtb_DeadZoney = 0.0;
+    } else {
+      /* DeadZone: '<S5>/Dead Zone: y' */
+      rtb_DeadZoney = lab3_init_B.RateTransitiony - lab3_init_P.DeadZoney_Start;
+    }
+
+    /* End of DeadZone: '<S5>/Dead Zone: y' */
+
+    /* Gain: '<S5>/Joystick_gain_y' incorporates:
+     *  Gain: '<S5>/Gain: y'
+     */
+    lab3_init_B.Joystick_gain_y = lab3_init_P.Gainy_Gain * rtb_DeadZoney *
+      lab3_init_P.Joystick_gain_y;
+
+    /* Gain: '<Root>/Gain' incorporates:
+     *  SignalConversion generated from: '<Root>/Gain'
+     */
+    lab3_init_B.Gain[0] = 0.0;
+    lab3_init_B.Gain[0] += lab3_init_P.F[0] * lab3_init_B.Joystick_gain_x;
+    lab3_init_B.Gain[0] += lab3_init_P.F[2] * lab3_init_B.Joystick_gain_y;
+    lab3_init_B.Gain[1] = 0.0;
+    lab3_init_B.Gain[1] += lab3_init_P.F[1] * lab3_init_B.Joystick_gain_x;
+    lab3_init_B.Gain[1] += lab3_init_P.F[3] * lab3_init_B.Joystick_gain_y;
   }
+
+  /* SignalConversion generated from: '<Root>/Gain1' incorporates:
+   *  Integrator: '<Root>/Integrator'
+   *  Integrator: '<Root>/Integrator1'
+   */
+  tmp_0[0] = lab3_init_B.x_hat[0];
+  tmp_0[1] = lab3_init_B.x_hat[1];
+  tmp_0[2] = lab3_init_B.x_hat[3];
+  tmp_0[3] = lab3_init_X.Integrator_CSTATE_g;
+  tmp_0[4] = lab3_init_X.Integrator1_CSTATE;
+
+  /* Sum: '<Root>/Sum2' incorporates:
+   *  Gain: '<Root>/Gain1'
+   */
+  for (i = 0; i < 2; i++) {
+    rtb_Backgain = 0.0;
+    for (i_0 = 0; i_0 < 5; i_0++) {
+      rtb_Backgain += lab3_init_P.K[(i_0 << 1) + i] * tmp_0[i_0];
+    }
+
+    rtb_Sum2[i] = lab3_init_B.Gain[i] - rtb_Backgain;
+  }
+
+  /* End of Sum: '<Root>/Sum2' */
+
+  /* Sum: '<Root>/Sum6' incorporates:
+   *  Constant: '<Root>/Constant2'
+   */
+  rtb_Backgain = rtb_Sum2[1] + lab3_init_P.Constant2_Value;
 
   /* Sum: '<Root>/Sum' incorporates:
    *  Constant: '<Root>/Constant'
    */
-  rtb_Backgain = lab3_init_B.Sum2[0] + lab3_init_P.Constant_Value;
-
-  /* Sum: '<S1>/Add' */
-  rtb_Frontgain = rtb_Backgain - lab3_init_B.Sum2[1];
-
-  /* Sum: '<S1>/Subtract' */
-  rtb_Backgain += lab3_init_B.Sum2[1];
-
-  /* Gain: '<S1>/Back gain' */
-  rtb_Backgain *= lab3_init_P.Backgain_Gain;
-
-  /* Gain: '<S1>/Front gain' */
-  rtb_Frontgain *= lab3_init_P.Frontgain_Gain;
+  rtb_Frontgain = rtb_Sum2[0] + lab3_init_P.V_s_0;
   if (rtmIsMajorTimeStep(lab3_init_M)) {
   }
 
+  /* Gain: '<S1>/Front gain' incorporates:
+   *  Sum: '<S1>/Add'
+   */
+  euler_rates_tmp = (rtb_Frontgain - rtb_Backgain) * lab3_init_P.Frontgain_Gain;
+
   /* Saturate: '<S3>/Front motor: Saturation' */
-  if (rtb_Frontgain > lab3_init_P.FrontmotorSaturation_UpperSat) {
+  if (euler_rates_tmp > lab3_init_P.FrontmotorSaturation_UpperSat) {
     /* Saturate: '<S3>/Front motor: Saturation' */
     lab3_init_B.FrontmotorSaturation = lab3_init_P.FrontmotorSaturation_UpperSat;
-  } else if (rtb_Frontgain < lab3_init_P.FrontmotorSaturation_LowerSat) {
+  } else if (euler_rates_tmp < lab3_init_P.FrontmotorSaturation_LowerSat) {
     /* Saturate: '<S3>/Front motor: Saturation' */
     lab3_init_B.FrontmotorSaturation = lab3_init_P.FrontmotorSaturation_LowerSat;
   } else {
     /* Saturate: '<S3>/Front motor: Saturation' */
-    lab3_init_B.FrontmotorSaturation = rtb_Frontgain;
+    lab3_init_B.FrontmotorSaturation = euler_rates_tmp;
   }
 
   /* End of Saturate: '<S3>/Front motor: Saturation' */
 
+  /* Gain: '<S1>/Back gain' incorporates:
+   *  Sum: '<S1>/Subtract'
+   */
+  euler_rates_tmp = (rtb_Frontgain + rtb_Backgain) * lab3_init_P.Backgain_Gain;
+
   /* Saturate: '<S3>/Back motor: Saturation' */
-  if (rtb_Backgain > lab3_init_P.BackmotorSaturation_UpperSat) {
+  if (euler_rates_tmp > lab3_init_P.BackmotorSaturation_UpperSat) {
     /* Saturate: '<S3>/Back motor: Saturation' */
     lab3_init_B.BackmotorSaturation = lab3_init_P.BackmotorSaturation_UpperSat;
-  } else if (rtb_Backgain < lab3_init_P.BackmotorSaturation_LowerSat) {
+  } else if (euler_rates_tmp < lab3_init_P.BackmotorSaturation_LowerSat) {
     /* Saturate: '<S3>/Back motor: Saturation' */
     lab3_init_B.BackmotorSaturation = lab3_init_P.BackmotorSaturation_LowerSat;
   } else {
     /* Saturate: '<S3>/Back motor: Saturation' */
-    lab3_init_B.BackmotorSaturation = rtb_Backgain;
+    lab3_init_B.BackmotorSaturation = euler_rates_tmp;
   }
 
   /* End of Saturate: '<S3>/Back motor: Saturation' */
@@ -793,17 +734,16 @@ void lab3_init_output0(void)           /* Sample time: [0.0s, 0.0s] */
     }
 
     /* SignalConversion generated from: '<S7>/Gain4' */
-    lab3_init_B.y[0] = lab3_init_B.euler_angles[0];
-    lab3_init_B.y[1] = lab3_init_B.euler_rates[0];
-    lab3_init_B.y[2] = lab3_init_B.euler_angles[1];
-    lab3_init_B.y[3] = lab3_init_B.euler_rates[1];
-    lab3_init_B.y[4] = lab3_init_B.euler_rates[2];
+    tmp_0[0] = lab3_init_B.euler_angles[0];
+    tmp_0[1] = lab3_init_B.euler_rates[0];
+    tmp_0[2] = lab3_init_B.euler_angles[1];
+    tmp_0[3] = lab3_init_B.euler_rates[1];
+    tmp_0[4] = lab3_init_B.Gain2_e;
     for (i = 0; i < 5; i++) {
       /* Gain: '<S7>/Gain4' */
       lab3_init_B.Gain4[i] = 0.0;
       for (i_0 = 0; i_0 < 5; i_0++) {
-        lab3_init_B.Gain4[i] += lab3_init_P.C_est[5 * i_0 + i] *
-          lab3_init_B.y[i_0];
+        lab3_init_B.Gain4[i] += lab3_init_P.C_est[5 * i_0 + i] * tmp_0[i_0];
       }
 
       /* End of Gain: '<S7>/Gain4' */
@@ -819,7 +759,7 @@ void lab3_init_output0(void)           /* Sample time: [0.0s, 0.0s] */
       rtb_Backgain += lab3_init_P.C_est[5 * i_0 + i] * lab3_init_B.x_hat[i_0];
     }
 
-    tmp[i] = lab3_init_B.Gain4[i] - rtb_Backgain;
+    tmp_0[i] = lab3_init_B.Gain4[i] - rtb_Backgain;
   }
 
   /* End of Sum: '<S7>/Sum1' */
@@ -827,8 +767,13 @@ void lab3_init_output0(void)           /* Sample time: [0.0s, 0.0s] */
     /* Gain: '<S7>/Gain2' */
     lab3_init_B.Gain2_c[i] = 0.0;
 
+    /* Gain: '<S7>/Gain1' */
+    lab3_init_B.Gain1_i[i] = 0.0;
+    lab3_init_B.Gain1_i[i] += lab3_init_P.B_est[i] * rtb_Sum2[0];
+    lab3_init_B.Gain1_i[i] += lab3_init_P.B_est[i + 5] * rtb_Sum2[1];
+
     /* Gain: '<S7>/Gain' */
-    lab3_init_B.Gain[i] = 0.0;
+    lab3_init_B.Gain_i[i] = 0.0;
     for (i_0 = 0; i_0 < 5; i_0++) {
       /* Gain: '<S7>/Gain2' incorporates:
        *  Gain: '<S7>/Gain'
@@ -836,17 +781,12 @@ void lab3_init_output0(void)           /* Sample time: [0.0s, 0.0s] */
       Gain2_c_tmp = 5 * i_0 + i;
 
       /* Gain: '<S7>/Gain2' */
-      lab3_init_B.Gain2_c[i] += lab3_init_P.L_est[Gain2_c_tmp] * tmp[i_0];
+      lab3_init_B.Gain2_c[i] += lab3_init_P.L_est[Gain2_c_tmp] * tmp_0[i_0];
 
       /* Gain: '<S7>/Gain' */
-      lab3_init_B.Gain[i] += lab3_init_P.A_est[Gain2_c_tmp] *
+      lab3_init_B.Gain_i[i] += lab3_init_P.A_est[Gain2_c_tmp] *
         lab3_init_B.x_hat[i_0];
     }
-
-    /* Gain: '<S7>/Gain1' */
-    lab3_init_B.Gain1_i[i] = 0.0;
-    lab3_init_B.Gain1_i[i] += lab3_init_P.B_est[i] * lab3_init_B.Sum2[0];
-    lab3_init_B.Gain1_i[i] += lab3_init_P.B_est[i + 5] * lab3_init_B.Sum2[1];
   }
 
   if (rtmIsMajorTimeStep(lab3_init_M)) {
@@ -855,69 +795,14 @@ void lab3_init_output0(void)           /* Sample time: [0.0s, 0.0s] */
   for (i = 0; i < 5; i++) {
     /* Sum: '<S7>/Sum' */
     lab3_init_B.x_hat_dot[i] = (lab3_init_B.Gain2_c[i] + lab3_init_B.Gain1_i[i])
-      + lab3_init_B.Gain[i];
+      + lab3_init_B.Gain_i[i];
   }
 
   /* Sum: '<Root>/Sum4' */
-  lab3_init_B.gamma_dot = lab3_init_B.p_c - lab3_init_B.x_hat[0];
+  lab3_init_B.gamma_dot = lab3_init_B.Joystick_gain_x - lab3_init_B.x_hat[0];
 
-  /* RateTransition: '<S5>/Rate Transition: x' */
-  if (rtmIsMajorTimeStep(lab3_init_M)) {
-    if (lab3_init_M->Timing.RateInteraction.TID1_2) {
-      /* RateTransition: '<S5>/Rate Transition: x' */
-      lab3_init_B.RateTransitionx = lab3_init_DW.RateTransitionx_Buffer0;
-    }
-
-    /* DeadZone: '<S5>/Dead Zone: x' */
-    if (lab3_init_B.RateTransitionx > lab3_init_P.DeadZonex_End) {
-      /* DeadZone: '<S5>/Dead Zone: y' */
-      rtb_DeadZoney = lab3_init_B.RateTransitionx - lab3_init_P.DeadZonex_End;
-    } else if (lab3_init_B.RateTransitionx >= lab3_init_P.DeadZonex_Start) {
-      /* DeadZone: '<S5>/Dead Zone: y' */
-      rtb_DeadZoney = 0.0;
-    } else {
-      /* DeadZone: '<S5>/Dead Zone: y' */
-      rtb_DeadZoney = lab3_init_B.RateTransitionx - lab3_init_P.DeadZonex_Start;
-    }
-
-    /* End of DeadZone: '<S5>/Dead Zone: x' */
-
-    /* Gain: '<S5>/Joystick_gain_x' incorporates:
-     *  Gain: '<S5>/Gain: x'
-     */
-    lab3_init_B.Joystick_gain_x = lab3_init_P.Gainx_Gain * rtb_DeadZoney *
-      lab3_init_P.Joystick_gain_x;
-
-    /* RateTransition: '<S5>/Rate Transition: y' */
-    if (lab3_init_M->Timing.RateInteraction.TID1_2) {
-      /* RateTransition: '<S5>/Rate Transition: y' */
-      lab3_init_B.RateTransitiony = lab3_init_DW.RateTransitiony_Buffer0;
-    }
-
-    /* End of RateTransition: '<S5>/Rate Transition: y' */
-
-    /* DeadZone: '<S5>/Dead Zone: y' */
-    if (lab3_init_B.RateTransitiony > lab3_init_P.DeadZoney_End) {
-      /* DeadZone: '<S5>/Dead Zone: y' */
-      rtb_DeadZoney = lab3_init_B.RateTransitiony - lab3_init_P.DeadZoney_End;
-    } else if (lab3_init_B.RateTransitiony >= lab3_init_P.DeadZoney_Start) {
-      /* DeadZone: '<S5>/Dead Zone: y' */
-      rtb_DeadZoney = 0.0;
-    } else {
-      /* DeadZone: '<S5>/Dead Zone: y' */
-      rtb_DeadZoney = lab3_init_B.RateTransitiony - lab3_init_P.DeadZoney_Start;
-    }
-
-    /* End of DeadZone: '<S5>/Dead Zone: y' */
-
-    /* Gain: '<S5>/Joystick_gain_y' incorporates:
-     *  Gain: '<S5>/Gain: y'
-     */
-    lab3_init_B.Joystick_gain_y = lab3_init_P.Gainy_Gain * rtb_DeadZoney *
-      lab3_init_P.Joystick_gain_y;
-  }
-
-  /* End of RateTransition: '<S5>/Rate Transition: x' */
+  /* Sum: '<Root>/Sum5' */
+  lab3_init_B.zeta_dot = lab3_init_B.Joystick_gain_y - lab3_init_B.x_hat[3];
 }
 
 /* Model update function for TID0 */
@@ -994,11 +879,11 @@ void lab3_init_derivatives(void)
 
   /* End of Derivatives for Integrator: '<S7>/Integrator' */
 
-  /* Derivatives for Integrator: '<Root>/Integrator' */
-  _rtXdot->Integrator_CSTATE_g = lab3_init_B.gamma_dot;
-
-  /* Derivatives for Integrator: '<Root>/Integrator1' */
-  _rtXdot->Integrator1_CSTATE = lab3_init_B.zeta_dot;
+  /* Derivatives for TransferFcn: '<S3>/Pitch: Transfer Fcn' */
+  _rtXdot->PitchTransferFcn_CSTATE = 0.0;
+  _rtXdot->PitchTransferFcn_CSTATE += lab3_init_P.PitchTransferFcn_A *
+    lab3_init_X.PitchTransferFcn_CSTATE;
+  _rtXdot->PitchTransferFcn_CSTATE += lab3_init_B.PitchCounttorad;
 
   /* Derivatives for TransferFcn: '<S3>/Elevation: Transfer Fcn' */
   _rtXdot->ElevationTransferFcn_CSTATE = 0.0;
@@ -1006,17 +891,17 @@ void lab3_init_derivatives(void)
     lab3_init_X.ElevationTransferFcn_CSTATE;
   _rtXdot->ElevationTransferFcn_CSTATE += lab3_init_B.Sum;
 
-  /* Derivatives for TransferFcn: '<S3>/Pitch: Transfer Fcn' */
-  _rtXdot->PitchTransferFcn_CSTATE = 0.0;
-  _rtXdot->PitchTransferFcn_CSTATE += lab3_init_P.PitchTransferFcn_A *
-    lab3_init_X.PitchTransferFcn_CSTATE;
-  _rtXdot->PitchTransferFcn_CSTATE += lab3_init_B.PitchCounttorad;
-
   /* Derivatives for TransferFcn: '<S3>/Travel: Transfer Fcn' */
   _rtXdot->TravelTransferFcn_CSTATE = 0.0;
   _rtXdot->TravelTransferFcn_CSTATE += lab3_init_P.TravelTransferFcn_A *
     lab3_init_X.TravelTransferFcn_CSTATE;
   _rtXdot->TravelTransferFcn_CSTATE += lab3_init_B.TravelCounttorad;
+
+  /* Derivatives for Integrator: '<Root>/Integrator' */
+  _rtXdot->Integrator_CSTATE_g = lab3_init_B.gamma_dot;
+
+  /* Derivatives for Integrator: '<Root>/Integrator1' */
+  _rtXdot->Integrator1_CSTATE = lab3_init_B.zeta_dot;
 }
 
 /* Model output function for TID2 */
@@ -1502,26 +1387,6 @@ void lab3_init_initialize(void)
     lab3_init_DW.StreamCall2_Stream = NULL;
   }
 
-  /* Start for ToFile: '<Root>/To File1' */
-  {
-    FILE *fp = (NULL);
-    char fileName[509] = "prob_4.mat";
-    if ((fp = fopen(fileName, "wb")) == (NULL)) {
-      rtmSetErrorStatus(lab3_init_M, "Error creating .mat file prob_4.mat");
-      return;
-    }
-
-    if (rt_WriteMat4FileHeader(fp, 12 + 1, 0, "ans")) {
-      rtmSetErrorStatus(lab3_init_M,
-                        "Error writing mat file header to file prob_4.mat");
-      return;
-    }
-
-    lab3_init_DW.ToFile1_IWORK.Count = 0;
-    lab3_init_DW.ToFile1_IWORK.Decimation = -1;
-    lab3_init_DW.ToFile1_PWORK.FilePtr = fp;
-  }
-
   /* Start for RateTransition: '<S5>/Rate Transition: x' */
   lab3_init_B.RateTransitionx = lab3_init_P.RateTransitionx_InitialConditio;
 
@@ -1560,22 +1425,6 @@ void lab3_init_initialize(void)
   {
     int32_T i;
 
-    /* InitializeConditions for Integrator: '<S7>/Integrator' */
-    for (i = 0; i < 5; i++) {
-      lab3_init_X.Integrator_CSTATE[i] = lab3_init_P.Integrator_IC;
-    }
-
-    /* End of InitializeConditions for Integrator: '<S7>/Integrator' */
-
-    /* InitializeConditions for Integrator: '<Root>/Integrator' */
-    lab3_init_X.Integrator_CSTATE_g = lab3_init_P.Integrator_IC_a;
-
-    /* InitializeConditions for Integrator: '<Root>/Integrator1' */
-    lab3_init_X.Integrator1_CSTATE = lab3_init_P.Integrator1_IC;
-
-    /* InitializeConditions for TransferFcn: '<S3>/Elevation: Transfer Fcn' */
-    lab3_init_X.ElevationTransferFcn_CSTATE = 0.0;
-
     /* InitializeConditions for UnitDelay: '<S8>/Unit Delay' */
     lab3_init_DW.UnitDelay_DSTATE = lab3_init_P.UnitDelay_InitialCondition;
 
@@ -1594,8 +1443,18 @@ void lab3_init_initialize(void)
     /* InitializeConditions for UnitDelay: '<S13>/Unit Delay' */
     lab3_init_DW.UnitDelay_DSTATE_dn = lab3_init_P.UnitDelay_InitialCondition_i;
 
+    /* InitializeConditions for Integrator: '<S7>/Integrator' */
+    for (i = 0; i < 5; i++) {
+      lab3_init_X.Integrator_CSTATE[i] = lab3_init_P.Integrator_IC;
+    }
+
+    /* End of InitializeConditions for Integrator: '<S7>/Integrator' */
+
     /* InitializeConditions for TransferFcn: '<S3>/Pitch: Transfer Fcn' */
     lab3_init_X.PitchTransferFcn_CSTATE = 0.0;
+
+    /* InitializeConditions for TransferFcn: '<S3>/Elevation: Transfer Fcn' */
+    lab3_init_X.ElevationTransferFcn_CSTATE = 0.0;
 
     /* InitializeConditions for TransferFcn: '<S3>/Travel: Transfer Fcn' */
     lab3_init_X.TravelTransferFcn_CSTATE = 0.0;
@@ -1607,6 +1466,12 @@ void lab3_init_initialize(void)
     /* InitializeConditions for RateTransition: '<S5>/Rate Transition: y' */
     lab3_init_DW.RateTransitiony_Buffer0 =
       lab3_init_P.RateTransitiony_InitialConditio;
+
+    /* InitializeConditions for Integrator: '<Root>/Integrator' */
+    lab3_init_X.Integrator_CSTATE_g = lab3_init_P.Integrator_IC_a;
+
+    /* InitializeConditions for Integrator: '<Root>/Integrator1' */
+    lab3_init_X.Integrator1_CSTATE = lab3_init_P.Integrator1_IC;
 
     /* SystemInitialize for MATLAB Function: '<Root>/MATLAB Function' */
     lab3_init_DW.p_last_not_empty = false;
@@ -1722,36 +1587,6 @@ void lab3_init_terminate(void)
     if (lab3_init_DW.StreamCall2_Stream != NULL) {
       stream_close(lab3_init_DW.StreamCall2_Stream);
       lab3_init_DW.StreamCall2_Stream = NULL;
-    }
-  }
-
-  /* Terminate for ToFile: '<Root>/To File1' */
-  {
-    FILE *fp = (FILE *) lab3_init_DW.ToFile1_PWORK.FilePtr;
-    if (fp != (NULL)) {
-      char fileName[509] = "prob_4.mat";
-      if (fclose(fp) == EOF) {
-        rtmSetErrorStatus(lab3_init_M, "Error closing MAT-file prob_4.mat");
-        return;
-      }
-
-      if ((fp = fopen(fileName, "r+b")) == (NULL)) {
-        rtmSetErrorStatus(lab3_init_M, "Error reopening MAT-file prob_4.mat");
-        return;
-      }
-
-      if (rt_WriteMat4FileHeader(fp, 12 + 1, lab3_init_DW.ToFile1_IWORK.Count,
-           "ans")) {
-        rtmSetErrorStatus(lab3_init_M,
-                          "Error writing header for ans to MAT-file prob_4.mat");
-      }
-
-      if (fclose(fp) == EOF) {
-        rtmSetErrorStatus(lab3_init_M, "Error closing MAT-file prob_4.mat");
-        return;
-      }
-
-      lab3_init_DW.ToFile1_PWORK.FilePtr = (NULL);
     }
   }
 
@@ -1914,10 +1749,10 @@ RT_MODEL_lab3_init_T *lab3_init(void)
   lab3_init_M->Timing.stepSize2 = 0.01;
 
   /* External mode info */
-  lab3_init_M->Sizes.checksums[0] = (3351503266U);
-  lab3_init_M->Sizes.checksums[1] = (1537418904U);
-  lab3_init_M->Sizes.checksums[2] = (1133889823U);
-  lab3_init_M->Sizes.checksums[3] = (1109252444U);
+  lab3_init_M->Sizes.checksums[0] = (3722332900U);
+  lab3_init_M->Sizes.checksums[1] = (1604340118U);
+  lab3_init_M->Sizes.checksums[2] = (2396975944U);
+  lab3_init_M->Sizes.checksums[3] = (2866133730U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
@@ -1952,10 +1787,6 @@ RT_MODEL_lab3_init_T *lab3_init(void)
     }
 
     for (i = 0; i < 5; i++) {
-      lab3_init_B.y[i] = 0.0;
-    }
-
-    for (i = 0; i < 5; i++) {
       lab3_init_B.Gain4[i] = 0.0;
     }
 
@@ -1964,25 +1795,17 @@ RT_MODEL_lab3_init_T *lab3_init(void)
     }
 
     for (i = 0; i < 5; i++) {
-      lab3_init_B.Gain[i] = 0.0;
+      lab3_init_B.Gain1_i[i] = 0.0;
     }
 
     for (i = 0; i < 5; i++) {
-      lab3_init_B.Gain1_i[i] = 0.0;
+      lab3_init_B.Gain_i[i] = 0.0;
     }
 
     for (i = 0; i < 5; i++) {
       lab3_init_B.x_hat_dot[i] = 0.0;
     }
 
-    lab3_init_B.p_c = 0.0;
-    lab3_init_B.e_c_dot = 0.0;
-    lab3_init_B.Sum2[0] = 0.0;
-    lab3_init_B.Sum2[1] = 0.0;
-    lab3_init_B.PitchCounttorad = 0.0;
-    lab3_init_B.Sum = 0.0;
-    lab3_init_B.ElevationTransferFcn = 0.0;
-    lab3_init_B.zeta_dot = 0.0;
     lab3_init_B.DataTypeConversion2[0] = 0.0;
     lab3_init_B.DataTypeConversion2[1] = 0.0;
     lab3_init_B.DataTypeConversion2[2] = 0.0;
@@ -1995,16 +1818,23 @@ RT_MODEL_lab3_init_T *lab3_init(void)
     lab3_init_B.Gain2[0] = 0.0;
     lab3_init_B.Gain2[1] = 0.0;
     lab3_init_B.Gain2[2] = 0.0;
+    lab3_init_B.PitchCounttorad = 0.0;
     lab3_init_B.PitchTransferFcn = 0.0;
+    lab3_init_B.Sum = 0.0;
+    lab3_init_B.ElevationTransferFcn = 0.0;
+    lab3_init_B.Gain2_e = 0.0;
     lab3_init_B.TravelCounttorad = 0.0;
     lab3_init_B.TravelTransferFcn = 0.0;
-    lab3_init_B.FrontmotorSaturation = 0.0;
-    lab3_init_B.BackmotorSaturation = 0.0;
-    lab3_init_B.gamma_dot = 0.0;
     lab3_init_B.RateTransitionx = 0.0;
     lab3_init_B.Joystick_gain_x = 0.0;
     lab3_init_B.RateTransitiony = 0.0;
     lab3_init_B.Joystick_gain_y = 0.0;
+    lab3_init_B.Gain[0] = 0.0;
+    lab3_init_B.Gain[1] = 0.0;
+    lab3_init_B.FrontmotorSaturation = 0.0;
+    lab3_init_B.BackmotorSaturation = 0.0;
+    lab3_init_B.gamma_dot = 0.0;
+    lab3_init_B.zeta_dot = 0.0;
     lab3_init_B.euler_angles[0] = 0.0;
     lab3_init_B.euler_angles[1] = 0.0;
     lab3_init_B.euler_rates[0] = 0.0;
@@ -2096,10 +1926,10 @@ RT_MODEL_lab3_init_T *lab3_init(void)
     }
   }
 
-  lab3_init_DW.HILWriteAnalog_Buffer[0] = 0.0;
-  lab3_init_DW.HILWriteAnalog_Buffer[1] = 0.0;
   lab3_init_DW.RateTransitionx_Buffer0 = 0.0;
   lab3_init_DW.RateTransitiony_Buffer0 = 0.0;
+  lab3_init_DW.HILWriteAnalog_Buffer[0] = 0.0;
+  lab3_init_DW.HILWriteAnalog_Buffer[1] = 0.0;
   lab3_init_DW.p_last = 0.0;
   lab3_init_DW.e_last = 0.0;
   lab3_init_DW.UnitDelay_DSTATE = 0.0F;
@@ -2134,9 +1964,9 @@ RT_MODEL_lab3_init_T *lab3_init(void)
   lab3_init_M->Sizes.numU = (0);       /* Number of model inputs */
   lab3_init_M->Sizes.sysDirFeedThru = (0);/* The model is not direct feedthrough */
   lab3_init_M->Sizes.numSampTimes = (3);/* Number of sample times */
-  lab3_init_M->Sizes.numBlocks = (116);/* Number of blocks */
-  lab3_init_M->Sizes.numBlockIO = (52);/* Number of block outputs */
-  lab3_init_M->Sizes.numBlockPrms = (546);/* Sum of parameter "widths" */
+  lab3_init_M->Sizes.numBlocks = (104);/* Number of blocks */
+  lab3_init_M->Sizes.numBlockIO = (50);/* Number of block outputs */
+  lab3_init_M->Sizes.numBlockPrms = (530);/* Sum of parameter "widths" */
   return lab3_init_M;
 }
 

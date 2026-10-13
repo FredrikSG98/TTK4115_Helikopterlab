@@ -7,9 +7,9 @@
  *
  * Code generation for model "lab3_init".
  *
- * Model version              : 11.45
+ * Model version              : 11.61
  * Simulink Coder version : 9.4 (R2020b) 29-Jul-2020
- * C source code generated on : Tue Oct  6 14:57:24 2026
+ * C source code generated on : Tue Oct 13 14:13:32 2026
  *
  * Target selection: quarc_win64.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -20,13 +20,10 @@
 
 #ifndef RTW_HEADER_lab3_init_h_
 #define RTW_HEADER_lab3_init_h_
-#include <stddef.h>
 #include <math.h>
 #include <string.h>
 #ifndef lab3_init_COMMON_INCLUDES_
 #define lab3_init_COMMON_INCLUDES_
-#include <stdio.h>
-#include <string.h>
 #include "rtwtypes.h"
 #include "zero_crossing_types.h"
 #include "simstruc.h"
@@ -48,7 +45,6 @@
 
 /* Shared type includes */
 #include "multiword_types.h"
-#include "rtGetNaN.h"
 #include "rt_defines.h"
 #include "rt_nonfinite.h"
 
@@ -880,34 +876,32 @@
 
 /* Block signals (default storage) */
 typedef struct {
-  real_T p_c;                          /* '<Root>/Sum3' */
-  real_T e_c_dot;                      /* '<Root>/Sum1' */
-  real_T x_hat[5];                     /* '<S7>/Integrator' */
-  real_T Sum2[2];                      /* '<Root>/Sum2' */
-  real_T PitchCounttorad;              /* '<S3>/Pitch: Count to rad' */
-  real_T Sum;                          /* '<S3>/Sum' */
-  real_T ElevationTransferFcn;         /* '<S3>/Elevation: Transfer Fcn' */
-  real_T zeta_dot;                     /* '<Root>/Sum5' */
   real_T DataTypeConversion2[3];       /* '<S4>/Data Type Conversion2' */
   real_T Gain1[3];                     /* '<S4>/Gain1' */
   real_T DataTypeConversion1[3];       /* '<S4>/Data Type Conversion1' */
   real_T Gain2[3];                     /* '<S4>/Gain2' */
+  real_T PitchCounttorad;              /* '<S3>/Pitch: Count to rad' */
+  real_T x_hat[5];                     /* '<S7>/Integrator' */
   real_T PitchTransferFcn;             /* '<S3>/Pitch: Transfer Fcn' */
+  real_T Sum;                          /* '<S3>/Sum' */
+  real_T ElevationTransferFcn;         /* '<S3>/Elevation: Transfer Fcn' */
+  real_T Gain2_e;                      /* '<Root>/Gain2' */
   real_T TravelCounttorad;             /* '<S3>/Travel: Count to rad' */
   real_T TravelTransferFcn;            /* '<S3>/Travel: Transfer Fcn' */
-  real_T FrontmotorSaturation;         /* '<S3>/Front motor: Saturation' */
-  real_T BackmotorSaturation;          /* '<S3>/Back motor: Saturation' */
-  real_T y[5];
-  real_T Gain4[5];                     /* '<S7>/Gain4' */
-  real_T Gain2_c[5];                   /* '<S7>/Gain2' */
-  real_T Gain[5];                      /* '<S7>/Gain' */
-  real_T Gain1_i[5];                   /* '<S7>/Gain1' */
-  real_T x_hat_dot[5];                 /* '<S7>/Sum' */
-  real_T gamma_dot;                    /* '<Root>/Sum4' */
   real_T RateTransitionx;              /* '<S5>/Rate Transition: x' */
   real_T Joystick_gain_x;              /* '<S5>/Joystick_gain_x' */
   real_T RateTransitiony;              /* '<S5>/Rate Transition: y' */
   real_T Joystick_gain_y;              /* '<S5>/Joystick_gain_y' */
+  real_T Gain[2];                      /* '<Root>/Gain' */
+  real_T FrontmotorSaturation;         /* '<S3>/Front motor: Saturation' */
+  real_T BackmotorSaturation;          /* '<S3>/Back motor: Saturation' */
+  real_T Gain4[5];                     /* '<S7>/Gain4' */
+  real_T Gain2_c[5];                   /* '<S7>/Gain2' */
+  real_T Gain1_i[5];                   /* '<S7>/Gain1' */
+  real_T Gain_i[5];                    /* '<S7>/Gain' */
+  real_T x_hat_dot[5];                 /* '<S7>/Sum' */
+  real_T gamma_dot;                    /* '<Root>/Sum4' */
+  real_T zeta_dot;                     /* '<Root>/Sum5' */
   real_T euler_angles[2];              /* '<Root>/MATLAB Function' */
   real_T euler_rates[3];
          /* '<Root>/Gyro vector to [pitch rate, elevation rate, travle rate]' */
@@ -945,9 +939,9 @@ typedef struct {
   real_T HILInitialize_FilterFrequency[8];/* '<Root>/HIL Initialize' */
   real_T HILInitialize_POSortedFreqs[8];/* '<Root>/HIL Initialize' */
   real_T HILInitialize_POValues[8];    /* '<Root>/HIL Initialize' */
-  real_T HILWriteAnalog_Buffer[2];     /* '<S3>/HIL Write Analog' */
   real_T RateTransitionx_Buffer0;      /* '<S5>/Rate Transition: x' */
   real_T RateTransitiony_Buffer0;      /* '<S5>/Rate Transition: y' */
+  real_T HILWriteAnalog_Buffer[2];     /* '<S3>/HIL Write Analog' */
   real_T p_last;                       /* '<Root>/MATLAB Function' */
   real_T e_last;                       /* '<Root>/MATLAB Function' */
   t_stream StreamCall2_Stream;         /* '<S4>/Stream Call2' */
@@ -955,32 +949,12 @@ typedef struct {
   t_card HILInitialize_Card;           /* '<Root>/HIL Initialize' */
   t_task HILReadEncoderTimebase_Task;  /* '<S3>/HIL Read Encoder Timebase' */
   struct {
-    void *LoggedData;
-  } Scope_PWORK;                       /* '<Root>/Scope' */
-
-  struct {
-    void *LoggedData[3];
-  } Scope1_PWORK;                      /* '<Root>/Scope1' */
-
-  struct {
-    void *LoggedData[3];
-  } Scope3_PWORK;                      /* '<Root>/Scope3' */
-
-  struct {
-    void *LoggedData[4];
-  } Scope4_PWORK;                      /* '<Root>/Scope4' */
-
-  struct {
     void *LoggedData[3];
   } Scope5_PWORK;                      /* '<Root>/Scope5' */
 
   struct {
     void *LoggedData[5];
   } Scope6_PWORK;                      /* '<Root>/Scope6' */
-
-  struct {
-    void *FilePtr;
-  } ToFile1_PWORK;                     /* '<Root>/To File1' */
 
   struct {
     void *LoggedData;
@@ -1017,7 +991,7 @@ typedef struct {
 
   struct {
     void *LoggedData[6];
-  } Scope_PWORK_i;                     /* '<S4>/Scope' */
+  } Scope_PWORK;                       /* '<S4>/Scope' */
 
   struct {
     void *LoggedData;
@@ -1068,10 +1042,6 @@ typedef struct {
   } Scope_PWORK_o;                     /* '<S13>/Scope' */
 
   struct {
-    void *LoggedData[5];
-  } Scope_PWORK_n;                     /* '<S7>/Scope' */
-
-  struct {
     void *LoggedData;
   } XScope_PWORK;                      /* '<S5>/X: Scope' */
 
@@ -1080,8 +1050,8 @@ typedef struct {
   } YScope_PWORK;                      /* '<S5>/Y: Scope' */
 
   struct {
-    void *LoggedData;
-  } Scope2_PWORK;                      /* '<Root>/Scope2' */
+    void *LoggedData[3];
+  } Scope_PWORK_e;                     /* '<S7>/Scope' */
 
   real32_T UnitDelay_DSTATE;           /* '<S8>/Unit Delay' */
   real32_T UnitDelay_DSTATE_d;         /* '<S9>/Unit Delay' */
@@ -1097,11 +1067,6 @@ typedef struct {
   int32_T HILInitialize_POPolarityVals[8];/* '<Root>/HIL Initialize' */
   int32_T HILReadEncoderTimebase_Buffer[3];/* '<S3>/HIL Read Encoder Timebase' */
   uint32_T HILInitialize_POSortedChans[8];/* '<Root>/HIL Initialize' */
-  struct {
-    int_T Count;
-    int_T Decimation;
-  } ToFile1_IWORK;                     /* '<Root>/To File1' */
-
   int8_T Skiptonextline_SubsysRanBC;   /* '<S4>/Skip to next line' */
   uint8_T StreamCall2_State;           /* '<S4>/Stream Call2' */
   boolean_T p_last_not_empty;          /* '<Root>/MATLAB Function' */
@@ -1111,31 +1076,31 @@ typedef struct {
 /* Continuous states (default storage) */
 typedef struct {
   real_T Integrator_CSTATE[5];         /* '<S7>/Integrator' */
+  real_T PitchTransferFcn_CSTATE;      /* '<S3>/Pitch: Transfer Fcn' */
+  real_T ElevationTransferFcn_CSTATE;  /* '<S3>/Elevation: Transfer Fcn' */
+  real_T TravelTransferFcn_CSTATE;     /* '<S3>/Travel: Transfer Fcn' */
   real_T Integrator_CSTATE_g;          /* '<Root>/Integrator' */
   real_T Integrator1_CSTATE;           /* '<Root>/Integrator1' */
-  real_T ElevationTransferFcn_CSTATE;  /* '<S3>/Elevation: Transfer Fcn' */
-  real_T PitchTransferFcn_CSTATE;      /* '<S3>/Pitch: Transfer Fcn' */
-  real_T TravelTransferFcn_CSTATE;     /* '<S3>/Travel: Transfer Fcn' */
 } X_lab3_init_T;
 
 /* State derivatives (default storage) */
 typedef struct {
   real_T Integrator_CSTATE[5];         /* '<S7>/Integrator' */
+  real_T PitchTransferFcn_CSTATE;      /* '<S3>/Pitch: Transfer Fcn' */
+  real_T ElevationTransferFcn_CSTATE;  /* '<S3>/Elevation: Transfer Fcn' */
+  real_T TravelTransferFcn_CSTATE;     /* '<S3>/Travel: Transfer Fcn' */
   real_T Integrator_CSTATE_g;          /* '<Root>/Integrator' */
   real_T Integrator1_CSTATE;           /* '<Root>/Integrator1' */
-  real_T ElevationTransferFcn_CSTATE;  /* '<S3>/Elevation: Transfer Fcn' */
-  real_T PitchTransferFcn_CSTATE;      /* '<S3>/Pitch: Transfer Fcn' */
-  real_T TravelTransferFcn_CSTATE;     /* '<S3>/Travel: Transfer Fcn' */
 } XDot_lab3_init_T;
 
 /* State disabled  */
 typedef struct {
   boolean_T Integrator_CSTATE[5];      /* '<S7>/Integrator' */
+  boolean_T PitchTransferFcn_CSTATE;   /* '<S3>/Pitch: Transfer Fcn' */
+  boolean_T ElevationTransferFcn_CSTATE;/* '<S3>/Elevation: Transfer Fcn' */
+  boolean_T TravelTransferFcn_CSTATE;  /* '<S3>/Travel: Transfer Fcn' */
   boolean_T Integrator_CSTATE_g;       /* '<Root>/Integrator' */
   boolean_T Integrator1_CSTATE;        /* '<Root>/Integrator1' */
-  boolean_T ElevationTransferFcn_CSTATE;/* '<S3>/Elevation: Transfer Fcn' */
-  boolean_T PitchTransferFcn_CSTATE;   /* '<S3>/Pitch: Transfer Fcn' */
-  boolean_T TravelTransferFcn_CSTATE;  /* '<S3>/Travel: Transfer Fcn' */
 } XDis_lab3_init_T;
 
 #ifndef ODE1_INTG
@@ -1193,6 +1158,9 @@ struct P_lab3_init_T_ {
   real_T L_est[25];                    /* Variable: L_est
                                         * Referenced by: '<S7>/Gain2'
                                         */
+  real_T V_s_0;                        /* Variable: V_s_0
+                                        * Referenced by: '<Root>/Constant'
+                                        */
   uint32_T HILWriteAnalog_channels[2];/* Mask Parameter: HILWriteAnalog_channels
                                        * Referenced by: '<S3>/HIL Write Analog'
                                        */
@@ -1247,71 +1215,29 @@ struct P_lab3_init_T_ {
   real_T HILInitialize_POWatchdog;     /* Expression: watchdog_pwm_outputs
                                         * Referenced by: '<Root>/HIL Initialize'
                                         */
-  real_T Step2_Time;                   /* Expression: 80
-                                        * Referenced by: '<Root>/Step2'
+  real_T Constant4_Value;              /* Expression: 0
+                                        * Referenced by: '<S4>/Constant4'
                                         */
-  real_T Step2_Y0;                     /* Expression: 0
-                                        * Referenced by: '<Root>/Step2'
-                                        */
-  real_T Step2_YFinal;                 /* Expression: 0.175
-                                        * Referenced by: '<Root>/Step2'
-                                        */
-  real_T Step3_Time;                   /* Expression: 120
-                                        * Referenced by: '<Root>/Step3'
-                                        */
-  real_T Step3_Y0;                     /* Expression: 0
-                                        * Referenced by: '<Root>/Step3'
-                                        */
-  real_T Step3_YFinal;                 /* Expression: 0.175
-                                        * Referenced by: '<Root>/Step3'
-                                        */
-  real_T Step_Time;                    /* Expression: 40
-                                        * Referenced by: '<Root>/Step'
-                                        */
-  real_T Step_Y0;                      /* Expression: 0
-                                        * Referenced by: '<Root>/Step'
-                                        */
-  real_T Step_YFinal;                  /* Expression: 0.175*2
-                                        * Referenced by: '<Root>/Step'
-                                        */
-  real_T Step1_Time;                   /* Expression: 42
-                                        * Referenced by: '<Root>/Step1'
-                                        */
-  real_T Step1_Y0;                     /* Expression: 0
-                                        * Referenced by: '<Root>/Step1'
-                                        */
-  real_T Step1_YFinal;                 /* Expression: 0.175*2
-                                        * Referenced by: '<Root>/Step1'
-                                        */
-  real_T Step5_Time;                   /* Expression: 52
-                                        * Referenced by: '<Root>/Step5'
-                                        */
-  real_T Step5_Y0;                     /* Expression: 0
-                                        * Referenced by: '<Root>/Step5'
-                                        */
-  real_T Step5_YFinal;                 /* Expression: 0.175*2
-                                        * Referenced by: '<Root>/Step5'
-                                        */
-  real_T Step4_Time;                   /* Expression: 50
-                                        * Referenced by: '<Root>/Step4'
-                                        */
-  real_T Step4_Y0;                     /* Expression: 0
-                                        * Referenced by: '<Root>/Step4'
-                                        */
-  real_T Step4_YFinal;                 /* Expression: 0.175*2
-                                        * Referenced by: '<Root>/Step4'
+  real_T Gain1_Gain[9];             /* Expression: [ 0, 0, 1; 0, 1, 0; -1, 0, 0]
+                                     * Referenced by: '<S4>/Gain1'
+                                     */
+  real_T Gain2_Gain[9];             /* Expression: [ 0, 0, 1; 0, 1, 0; -1, 0, 0]
+                                     * Referenced by: '<S4>/Gain2'
+                                     */
+  real_T PitchCounttorad_Gain;         /* Expression: -2*pi /4096
+                                        * Referenced by: '<S3>/Pitch: Count to rad'
                                         */
   real_T Integrator_IC;                /* Expression: 0
                                         * Referenced by: '<S7>/Integrator'
                                         */
-  real_T Integrator_IC_a;              /* Expression: 0
-                                        * Referenced by: '<Root>/Integrator'
+  real_T PitchTransferFcn_A;           /* Computed Parameter: PitchTransferFcn_A
+                                        * Referenced by: '<S3>/Pitch: Transfer Fcn'
                                         */
-  real_T Integrator1_IC;               /* Expression: 0
-                                        * Referenced by: '<Root>/Integrator1'
+  real_T PitchTransferFcn_C;           /* Computed Parameter: PitchTransferFcn_C
+                                        * Referenced by: '<S3>/Pitch: Transfer Fcn'
                                         */
-  real_T PitchCounttorad_Gain;         /* Expression: -2*pi /4096
-                                        * Referenced by: '<S3>/Pitch: Count to rad'
+  real_T PitchTransferFcn_D;           /* Computed Parameter: PitchTransferFcn_D
+                                        * Referenced by: '<S3>/Pitch: Transfer Fcn'
                                         */
   real_T ElevationCounttorad_Gain;     /* Expression: -2 * pi /4096
                                         * Referenced by: '<S3>/Elevation: Count to rad'
@@ -1325,23 +1251,8 @@ struct P_lab3_init_T_ {
   real_T ElevationTransferFcn_D;   /* Computed Parameter: ElevationTransferFcn_D
                                     * Referenced by: '<S3>/Elevation: Transfer Fcn'
                                     */
-  real_T Constant4_Value;              /* Expression: 0
-                                        * Referenced by: '<S4>/Constant4'
-                                        */
-  real_T Gain1_Gain[9];             /* Expression: [ 0, 0, 1; 0, 1, 0; -1, 0, 0]
-                                     * Referenced by: '<S4>/Gain1'
-                                     */
-  real_T Gain2_Gain[9];             /* Expression: [ 0, 0, 1; 0, 1, 0; -1, 0, 0]
-                                     * Referenced by: '<S4>/Gain2'
-                                     */
-  real_T PitchTransferFcn_A;           /* Computed Parameter: PitchTransferFcn_A
-                                        * Referenced by: '<S3>/Pitch: Transfer Fcn'
-                                        */
-  real_T PitchTransferFcn_C;           /* Computed Parameter: PitchTransferFcn_C
-                                        * Referenced by: '<S3>/Pitch: Transfer Fcn'
-                                        */
-  real_T PitchTransferFcn_D;           /* Computed Parameter: PitchTransferFcn_D
-                                        * Referenced by: '<S3>/Pitch: Transfer Fcn'
+  real_T Gain2_Gain_d;                 /* Expression: 0.5
+                                        * Referenced by: '<Root>/Gain2'
                                         */
   real_T TravelCounttorad_Gain;        /* Expression: -2*pi/8192
                                         * Referenced by: '<S3>/Travel: Count to rad'
@@ -1355,26 +1266,8 @@ struct P_lab3_init_T_ {
   real_T TravelTransferFcn_D;         /* Computed Parameter: TravelTransferFcn_D
                                        * Referenced by: '<S3>/Travel: Transfer Fcn'
                                        */
-  real_T Constant_Value;               /* Expression: 6.5
-                                        * Referenced by: '<Root>/Constant'
-                                        */
-  real_T Backgain_Gain;                /* Expression: 0.5
-                                        * Referenced by: '<S1>/Back gain'
-                                        */
-  real_T Frontgain_Gain;               /* Expression: 0.5
-                                        * Referenced by: '<S1>/Front gain'
-                                        */
-  real_T FrontmotorSaturation_UpperSat;/* Expression: 5
-                                        * Referenced by: '<S3>/Front motor: Saturation'
-                                        */
-  real_T FrontmotorSaturation_LowerSat;/* Expression: -5
-                                        * Referenced by: '<S3>/Front motor: Saturation'
-                                        */
-  real_T BackmotorSaturation_UpperSat; /* Expression: 5
-                                        * Referenced by: '<S3>/Back motor: Saturation'
-                                        */
-  real_T BackmotorSaturation_LowerSat; /* Expression: -5
-                                        * Referenced by: '<S3>/Back motor: Saturation'
+  real_T Constant2_Value;              /* Expression: -0.08
+                                        * Referenced by: '<Root>/Constant2'
                                         */
   real_T RateTransitionx_InitialConditio;/* Expression: 0
                                           * Referenced by: '<S5>/Rate Transition: x'
@@ -1399,6 +1292,30 @@ struct P_lab3_init_T_ {
                                         */
   real_T Gainy_Gain;                   /* Expression: 10/9
                                         * Referenced by: '<S5>/Gain: y'
+                                        */
+  real_T Integrator_IC_a;              /* Expression: 0
+                                        * Referenced by: '<Root>/Integrator'
+                                        */
+  real_T Integrator1_IC;               /* Expression: 0
+                                        * Referenced by: '<Root>/Integrator1'
+                                        */
+  real_T Backgain_Gain;                /* Expression: 0.5
+                                        * Referenced by: '<S1>/Back gain'
+                                        */
+  real_T Frontgain_Gain;               /* Expression: 0.5
+                                        * Referenced by: '<S1>/Front gain'
+                                        */
+  real_T FrontmotorSaturation_UpperSat;/* Expression: 5
+                                        * Referenced by: '<S3>/Front motor: Saturation'
+                                        */
+  real_T FrontmotorSaturation_LowerSat;/* Expression: -5
+                                        * Referenced by: '<S3>/Front motor: Saturation'
+                                        */
+  real_T BackmotorSaturation_UpperSat; /* Expression: 5
+                                        * Referenced by: '<S3>/Back motor: Saturation'
+                                        */
+  real_T BackmotorSaturation_LowerSat; /* Expression: -5
+                                        * Referenced by: '<S3>/Back motor: Saturation'
                                         */
   int32_T HILInitialize_CKChannels[3];
                                  /* Computed Parameter: HILInitialize_CKChannels

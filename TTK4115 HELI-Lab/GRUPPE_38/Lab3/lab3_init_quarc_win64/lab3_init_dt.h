@@ -7,9 +7,9 @@
  *
  * Code generation for model "lab3_init".
  *
- * Model version              : 11.45
+ * Model version              : 11.61
  * Simulink Coder version : 9.4 (R2020b) 29-Jul-2020
- * C source code generated on : Tue Oct  6 14:57:24 2026
+ * C source code generated on : Tue Oct 13 14:13:32 2026
  *
  * Target selection: quarc_win64.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -80,7 +80,7 @@ static const char_T * rtDataTypeNames[] = {
 
 /* data type transitions for block I/O structure */
 static DataTypeTransition rtBTransitions[] = {
-  { (char_T *)(&lab3_init_B.p_c), 0, 0, 70 },
+  { (char_T *)(&lab3_init_B.DataTypeConversion2[0]), 0, 0, 64 },
 
   { (char_T *)(&lab3_init_B.StreamFormattedRead1_o2), 1, 0, 12 },
 
@@ -99,15 +99,13 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)(&lab3_init_DW.HILReadEncoderTimebase_Task), 24, 0, 1 },
 
-  { (char_T *)(&lab3_init_DW.Scope_PWORK.LoggedData), 11, 0, 61 },
+  { (char_T *)(&lab3_init_DW.Scope5_PWORK.LoggedData[0]), 11, 0, 46 },
 
   { (char_T *)(&lab3_init_DW.UnitDelay_DSTATE), 1, 0, 6 },
 
   { (char_T *)(&lab3_init_DW.HILInitialize_ClockModes[0]), 6, 0, 46 },
 
   { (char_T *)(&lab3_init_DW.HILInitialize_POSortedChans[0]), 7, 0, 8 },
-
-  { (char_T *)(&lab3_init_DW.ToFile1_IWORK.Count), 10, 0, 1 },
 
   { (char_T *)(&lab3_init_DW.Skiptonextline_SubsysRanBC), 2, 0, 1 },
 
@@ -118,17 +116,17 @@ static DataTypeTransition rtBTransitions[] = {
 
 /* data type transition table for block I/O structure */
 static DataTypeTransitionTable rtBTransTable = {
-  17U,
+  16U,
   rtBTransitions
 };
 
 /* data type transitions for Parameters structure */
 static DataTypeTransition rtPTransitions[] = {
-  { (char_T *)(&lab3_init_P.A_est[0]), 0, 0, 102 },
+  { (char_T *)(&lab3_init_P.A_est[0]), 0, 0, 103 },
 
   { (char_T *)(&lab3_init_P.HILWriteAnalog_channels[0]), 7, 0, 2 },
 
-  { (char_T *)(&lab3_init_P.HILInitialize_OOTerminate), 0, 0, 84 },
+  { (char_T *)(&lab3_init_P.HILInitialize_OOTerminate), 0, 0, 67 },
 
   { (char_T *)(&lab3_init_P.HILInitialize_CKChannels[0]), 6, 0, 12 },
 

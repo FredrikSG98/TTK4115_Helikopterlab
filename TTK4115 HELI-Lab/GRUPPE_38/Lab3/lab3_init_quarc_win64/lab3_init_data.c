@@ -7,9 +7,9 @@
  *
  * Code generation for model "lab3_init".
  *
- * Model version              : 11.45
+ * Model version              : 11.61
  * Simulink Coder version : 9.4 (R2020b) 29-Jul-2020
- * C source code generated on : Tue Oct  6 14:57:24 2026
+ * C source code generated on : Tue Oct 13 14:13:32 2026
  *
  * Target selection: quarc_win64.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -26,7 +26,7 @@ P_lab3_init_T lab3_init_P = {
   /* Variable: A_est
    * Referenced by: '<S7>/Gain'
    */
-  { 0.0, 0.0, 0.0, 0.0, 0.72950653159377477, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+  { 0.0, 0.0, 0.0, 0.0, 0.96670234344418671, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
     0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
 
   /* Variable: B_est
@@ -75,8 +75,13 @@ P_lab3_init_T lab3_init_P = {
   /* Variable: L_est
    * Referenced by: '<S7>/Gain2'
    */
-  { 1.0, 0.0, 0.0, 0.0, 0.72950653159377477, 1.0, 1.1, 0.0, 0.0, 0.0, 0.0, 0.0,
+  { 1.0, 0.0, 0.0, 0.0, 0.96670234344418671, 1.0, 1.1, 0.0, 0.0, 0.0, 0.0, 0.0,
     1.2, 0.0, 0.0, 0.0, 0.0, 1.0, 1.3, 0.0, 0.0, 0.0, 0.0, 0.0, 1.4 },
+
+  /* Variable: V_s_0
+   * Referenced by: '<Root>/Constant'
+   */
+  6.5,
 
   /* Mask Parameter: HILWriteAnalog_channels
    * Referenced by: '<S3>/HIL Write Analog'
@@ -168,115 +173,45 @@ P_lab3_init_T lab3_init_P = {
    */
   0.0,
 
-  /* Expression: 80
-   * Referenced by: '<Root>/Step2'
-   */
-  80.0,
-
   /* Expression: 0
-   * Referenced by: '<Root>/Step2'
+   * Referenced by: '<S4>/Constant4'
    */
   0.0,
 
-  /* Expression: 0.175
-   * Referenced by: '<Root>/Step2'
+  /* Expression: [ 0, 0, 1; 0, 1, 0; -1, 0, 0]
+   * Referenced by: '<S4>/Gain1'
    */
-  0.175,
+  { 0.0, 0.0, -1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0 },
 
-  /* Expression: 120
-   * Referenced by: '<Root>/Step3'
+  /* Expression: [ 0, 0, 1; 0, 1, 0; -1, 0, 0]
+   * Referenced by: '<S4>/Gain2'
    */
-  120.0,
+  { 0.0, 0.0, -1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0 },
 
-  /* Expression: 0
-   * Referenced by: '<Root>/Step3'
+  /* Expression: -2*pi /4096
+   * Referenced by: '<S3>/Pitch: Count to rad'
    */
-  0.0,
-
-  /* Expression: 0.175
-   * Referenced by: '<Root>/Step3'
-   */
-  0.175,
-
-  /* Expression: 40
-   * Referenced by: '<Root>/Step'
-   */
-  40.0,
-
-  /* Expression: 0
-   * Referenced by: '<Root>/Step'
-   */
-  0.0,
-
-  /* Expression: 0.175*2
-   * Referenced by: '<Root>/Step'
-   */
-  0.35,
-
-  /* Expression: 42
-   * Referenced by: '<Root>/Step1'
-   */
-  42.0,
-
-  /* Expression: 0
-   * Referenced by: '<Root>/Step1'
-   */
-  0.0,
-
-  /* Expression: 0.175*2
-   * Referenced by: '<Root>/Step1'
-   */
-  0.35,
-
-  /* Expression: 52
-   * Referenced by: '<Root>/Step5'
-   */
-  52.0,
-
-  /* Expression: 0
-   * Referenced by: '<Root>/Step5'
-   */
-  0.0,
-
-  /* Expression: 0.175*2
-   * Referenced by: '<Root>/Step5'
-   */
-  0.35,
-
-  /* Expression: 50
-   * Referenced by: '<Root>/Step4'
-   */
-  50.0,
-
-  /* Expression: 0
-   * Referenced by: '<Root>/Step4'
-   */
-  0.0,
-
-  /* Expression: 0.175*2
-   * Referenced by: '<Root>/Step4'
-   */
-  0.35,
+  -0.0015339807878856412,
 
   /* Expression: 0
    * Referenced by: '<S7>/Integrator'
    */
   0.0,
 
-  /* Expression: 0
-   * Referenced by: '<Root>/Integrator'
+  /* Computed Parameter: PitchTransferFcn_A
+   * Referenced by: '<S3>/Pitch: Transfer Fcn'
    */
-  0.0,
+  -50.0,
 
-  /* Expression: 0
-   * Referenced by: '<Root>/Integrator1'
+  /* Computed Parameter: PitchTransferFcn_C
+   * Referenced by: '<S3>/Pitch: Transfer Fcn'
    */
-  0.0,
+  -2500.0,
 
-  /* Expression: -2*pi /4096
-   * Referenced by: '<S3>/Pitch: Count to rad'
+  /* Computed Parameter: PitchTransferFcn_D
+   * Referenced by: '<S3>/Pitch: Transfer Fcn'
    */
-  -0.0015339807878856412,
+  50.0,
 
   /* Expression: -2 * pi /4096
    * Referenced by: '<S3>/Elevation: Count to rad'
@@ -298,35 +233,10 @@ P_lab3_init_T lab3_init_P = {
    */
   50.0,
 
-  /* Expression: 0
-   * Referenced by: '<S4>/Constant4'
+  /* Expression: 0.5
+   * Referenced by: '<Root>/Gain2'
    */
-  0.0,
-
-  /* Expression: [ 0, 0, 1; 0, 1, 0; -1, 0, 0]
-   * Referenced by: '<S4>/Gain1'
-   */
-  { 0.0, 0.0, -1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0 },
-
-  /* Expression: [ 0, 0, 1; 0, 1, 0; -1, 0, 0]
-   * Referenced by: '<S4>/Gain2'
-   */
-  { 0.0, 0.0, -1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0 },
-
-  /* Computed Parameter: PitchTransferFcn_A
-   * Referenced by: '<S3>/Pitch: Transfer Fcn'
-   */
-  -50.0,
-
-  /* Computed Parameter: PitchTransferFcn_C
-   * Referenced by: '<S3>/Pitch: Transfer Fcn'
-   */
-  -2500.0,
-
-  /* Computed Parameter: PitchTransferFcn_D
-   * Referenced by: '<S3>/Pitch: Transfer Fcn'
-   */
-  50.0,
+  0.5,
 
   /* Expression: -2*pi/8192
    * Referenced by: '<S3>/Travel: Count to rad'
@@ -348,40 +258,10 @@ P_lab3_init_T lab3_init_P = {
    */
   50.0,
 
-  /* Expression: 6.5
-   * Referenced by: '<Root>/Constant'
+  /* Expression: -0.08
+   * Referenced by: '<Root>/Constant2'
    */
-  6.5,
-
-  /* Expression: 0.5
-   * Referenced by: '<S1>/Back gain'
-   */
-  0.5,
-
-  /* Expression: 0.5
-   * Referenced by: '<S1>/Front gain'
-   */
-  0.5,
-
-  /* Expression: 5
-   * Referenced by: '<S3>/Front motor: Saturation'
-   */
-  5.0,
-
-  /* Expression: -5
-   * Referenced by: '<S3>/Front motor: Saturation'
-   */
-  -5.0,
-
-  /* Expression: 5
-   * Referenced by: '<S3>/Back motor: Saturation'
-   */
-  5.0,
-
-  /* Expression: -5
-   * Referenced by: '<S3>/Back motor: Saturation'
-   */
-  -5.0,
+  -0.08,
 
   /* Expression: 0
    * Referenced by: '<S5>/Rate Transition: x'
@@ -422,6 +302,46 @@ P_lab3_init_T lab3_init_P = {
    * Referenced by: '<S5>/Gain: y'
    */
   1.1111111111111112,
+
+  /* Expression: 0
+   * Referenced by: '<Root>/Integrator'
+   */
+  0.0,
+
+  /* Expression: 0
+   * Referenced by: '<Root>/Integrator1'
+   */
+  0.0,
+
+  /* Expression: 0.5
+   * Referenced by: '<S1>/Back gain'
+   */
+  0.5,
+
+  /* Expression: 0.5
+   * Referenced by: '<S1>/Front gain'
+   */
+  0.5,
+
+  /* Expression: 5
+   * Referenced by: '<S3>/Front motor: Saturation'
+   */
+  5.0,
+
+  /* Expression: -5
+   * Referenced by: '<S3>/Front motor: Saturation'
+   */
+  -5.0,
+
+  /* Expression: 5
+   * Referenced by: '<S3>/Back motor: Saturation'
+   */
+  5.0,
+
+  /* Expression: -5
+   * Referenced by: '<S3>/Back motor: Saturation'
+   */
+  -5.0,
 
   /* Computed Parameter: HILInitialize_CKChannels
    * Referenced by: '<Root>/HIL Initialize'
