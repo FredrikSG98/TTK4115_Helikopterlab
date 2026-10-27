@@ -3,7 +3,7 @@ set(0, 'DefaultTextInterpreter', "latex"); % Formater text om til LaTeX
 
 fig1 = figure(1);
 
-VALT_DATASETT_VERDIER = UNSTABLE_VALUES;
+VALT_DATASETT_VERDIER = UNDERDAMPED_VALUES;
 
 
 % Visualiser steppet på referansen
@@ -26,13 +26,15 @@ ylabel('Radianer');
 title("Sprangrespons til p(t) gitt referansen $p_c(t)$");
 
 % Lag CSV fil av verdiane frå datasettet for bruk i Python
-writematrix( VALT_DATASETT_VERDIER, "UNSTABLE_VALUES.csv");
+%writematrix( VALT_DATASETT_VERDIER, "OVERDAMPED_VALUES.csv");
 
 
 % Eksportert plottet
 opts = hgexport('factorystyle');
 opts.Resolution = 300;
-hgexport(fig1, 'VALT_DATASETT_VERDIER.png', opts, 'Format', 'png');
+opts.Width = 7;
+opts.Height = 3;
+hgexport(fig1, 'VALT_DATASETT_VERDIER.svg', opts, 'Format', 'svg');
 
 % Ekstra lagring av plot for vidare bruk, frå GIT-sida.
 % optional: save the fig, for later customization: 
