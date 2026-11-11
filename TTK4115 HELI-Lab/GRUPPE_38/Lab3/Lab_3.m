@@ -25,6 +25,7 @@ l_p = 0.175; % distance pitch axis to motor [m]
 m_c = 1.92; % Counterweight mass [kg]
 m_p = 0.65; % Motor mass [kg]
 ELEV_OFFSET = -0.475; %Offset for keeping the 0-point at horizontal
+p_c_offset=-0.08
 
 
 %%%%%%%%%%% Tuning constants
@@ -65,6 +66,8 @@ p=pole(sys)
 PORT = 3 % the port for the Accelerometer. 
 A_est = [0 1 0 0 0 ; 0 0 0 0 0 ;0 0 0 1 0 ;0 0 0 0 0 ;K3 0 0 0 0]
 B_est = [0 0;0 K1;0 0;K2 0;0 0]
-C_est = [1 0 0 0 0;0 1 0 0 0;0 0 1 0 0;0 0 0 0 1] 
-poless =([-0.6 -0.7+0.1j -0.7-0.1j -0.5-0.3j -0.5+0.3j])'
+C_est = eye(5);
+%C_est = [0 0 1 0 0;0 0 0 0 1]
+%poless =([-0.6 -0.7+0.1j -0.7-0.1j -0.5-0.3j -0.5+0.3j])'
+poless =([-1 -5 -10 -50 -100])'
 L_est = place(A_est', C_est', poless)'
